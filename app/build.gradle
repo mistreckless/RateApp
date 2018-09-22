@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+
+android {
+    compileSdkVersion targetSdk
+    defaultConfig {
+        applicationId "com.revolut"
+        minSdkVersion minSdk
+        targetSdkVersion targetSdk
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    Map<String, String> dep = rootProject.ext.dependencies
+
+    implementation dep.appcompat
+    implementation dep.design
+    implementation dep.moxy
+    implementation dep.moxy_appcompat
+    kapt dep.moxy_compiler
+    implementation dep.cicerone
+    implementation dep.constraint_layout
+    implementation dep.arch_lifecycle_ext
+
+    implementation dep.dagger
+    implementation dep.dagger_android
+    kapt dep.dagger_processor
+    kapt dep.dagger_compiler
+
+    implementation dep.okhttp
+    implementation dep.okhttp_logging_interceptor
+    implementation dep.retrofit
+    implementation dep.retrofit_converter_gson
+    implementation dep.retrofit_rx_adapter
+
+    implementation dep.rx_java
+    implementation dep.rx_android
+
+    testImplementation dep.junit
+    androidTestImplementation dep.test_runner
+    androidTestImplementation dep.espresso_core
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
+}
