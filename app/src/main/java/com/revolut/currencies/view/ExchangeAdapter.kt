@@ -1,4 +1,4 @@
-package com.revolut.view
+package com.revolut.currencies.view
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
@@ -6,13 +6,10 @@ import android.arch.lifecycle.OnLifecycleEvent
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import com.revolut.MainViewModel
-import dagger.Lazy
+import com.revolut.currencies.MainViewModel
 import io.reactivex.disposables.CompositeDisposable
-import javax.inject.Inject
 
-class ExchangeAdapter(private val factory: ExchangeViewFactory,
-                      private val lifecycle: Lifecycle,
+class ExchangeAdapter(private val lifecycle: Lifecycle,
                       private val viewModel: MainViewModel) :
         RecyclerView.Adapter<BaseExchangeViewHolder>(), LifecycleObserver {
     private val holders = mutableListOf<BaseExchangeViewHolder>()
@@ -23,8 +20,12 @@ class ExchangeAdapter(private val factory: ExchangeViewFactory,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseExchangeViewHolder =
         when (viewType) {
-            CURRENT_EXCHANGE_TYPE -> factory.provideCurrentExchangeViewHolder(parent)
-            else                  -> factory.provideExchangeViewHolder(parent)
+            CURRENT_EXCHANGE_TYPE -> CurrentExchangeViewHolder(
+                parent,
+                viewModel)
+            else                  -> ExchangeViewHolder(
+                parent,
+                viewModel)
         }
 
     override fun getItemCount(): Int = viewModel.items.size
@@ -71,12 +72,4 @@ abstract class BaseExchangeViewHolder(itemView: View) : RecyclerView.ViewHolder(
     open fun onDetach() {
         disposables.clear()
     }
-}
-
-
-class ExchangeViewFactory @Inject constructor(private val viewModel: Lazy<MainViewModel>) {
-    fun provideExchangeViewHolder(parent: ViewGroup) =
-        ExchangeViewHolder(parent, viewModel.get())
-    fun provideCurrentExchangeViewHolder(parent: ViewGroup) =
-        CurrentExchangeViewHolder(parent, viewModel.get())
 }

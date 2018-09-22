@@ -11,6 +11,7 @@ buildscript {
         minSdk = 21
         retrofitVersion = '2.4.0'
         rxJavaVersion = '2.2.2'
+        mockito_version = '2.21.0'
 
         dependencies = [
                 kotlin_stdlib_jdk         : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
@@ -22,10 +23,6 @@ buildscript {
                 dagger_android            : "com.google.dagger:dagger-android-support:$daggerVersion",
                 dagger_compiler           : "com.google.dagger:dagger-compiler:$daggerVersion",
                 dagger_processor          : "com.google.dagger:dagger-android-processor:$daggerVersion",
-                moxy                      : "com.arello-mobile:moxy:$moxyVersion",
-                moxy_appcompat            : "com.arello-mobile:moxy-app-compat:$moxyVersion",
-                moxy_compiler             : "com.arello-mobile:moxy-compiler:$moxyVersion",
-                cicerone                  : 'ru.terrakok.cicerone:cicerone:3.0.0',
                 okhttp                    : "com.squareup.okhttp3:okhttp:$okhttpVersion",
                 okhttp_logging_interceptor: "com.squareup.okhttp3:logging-interceptor:$okhttpVersion",
                 retrofit                  : "com.squareup.retrofit2:retrofit:$retrofitVersion",
@@ -35,7 +32,8 @@ buildscript {
                 rx_android                : 'io.reactivex.rxjava2:rxandroid:2.1.0',
                 junit                     : 'junit:junit:4.12',
                 test_runner               : 'com.android.support.test:runner:1.0.2',
-                espresso_core             : 'com.android.support.test.espresso:espresso-core:3.0.2'
+                espresso_core             : 'com.android.support.test.espresso:espresso-core:3.0.2',
+                mockito                   : "org.mockito:mockito-core:$mockito_version"
         ]
     }
     repositories {

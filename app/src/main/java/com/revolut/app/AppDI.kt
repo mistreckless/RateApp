@@ -1,16 +1,14 @@
 package com.revolut.app
 
 import android.app.Application
-import com.revolut.MainActivity
-import com.revolut.MainActivityModule
-import com.revolut.PerActivity
-import com.revolut.data.RateRepository
-import com.revolut.data.RevolutApiService
-import com.revolut.data.RevolutRateRepository
+import com.revolut.core.NetworkModule
+import com.revolut.core.PerActivity
+import com.revolut.core.RepositoryModule
+import com.revolut.currencies.MainActivity
+import com.revolut.currencies.MainActivityModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
-import dagger.Provides
 import dagger.android.AndroidInjectionModule
 import dagger.android.ContributesAndroidInjector
 import javax.inject.Singleton
@@ -38,17 +36,3 @@ abstract class ActivityBuilder {
     abstract fun bindMainActivity(): MainActivity
 }
 
-@Module
-class RepositoryModule{
-
-    @Singleton
-    @Provides
-    fun provideRatesRepository(apiService: RevolutApiService): RateRepository = RevolutRateRepository(apiService)
-}
-
-@Module
-class NetworkModule{
-    @Singleton
-    @Provides
-    fun provideRevolutApiService(): RevolutApiService = RevolutApiService.create()
-}

@@ -1,4 +1,4 @@
-package com.revolut
+package com.revolut.core
 
 import javax.inject.Scope
 

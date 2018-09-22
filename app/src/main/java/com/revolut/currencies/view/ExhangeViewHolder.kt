@@ -1,10 +1,10 @@
-package com.revolut.view
+package com.revolut.currencies.view
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.revolut.MainViewModel
 import com.revolut.R
+import com.revolut.currencies.MainViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.exchange_item.view.*
 
 class ExchangeViewHolder(parent: ViewGroup, private val viewModel: MainViewModel) :
@@ -15,7 +15,7 @@ class ExchangeViewHolder(parent: ViewGroup, private val viewModel: MainViewModel
 
     override fun bind(currency: String, position: Int) {
         this.currency = currency
-        with(itemView){
+        with(itemView) {
             tvCurrency.text = currency
             setOnClickListener {
                 viewModel.changeCurrent(currency, position, tvAmount.text.toString().toDouble())
@@ -26,9 +26,8 @@ class ExchangeViewHolder(parent: ViewGroup, private val viewModel: MainViewModel
     override fun onAttach() {
         disposables.add(viewModel.observeExchange(currency)
             .distinctUntilChanged()
-            .subscribe {
-                Log.e(currency, "$it")
-                itemView.tvAmount.text = it.toString()
-            })
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { itemView.tvAmount.text = it.toString() }
+            .subscribe())
     }
 }

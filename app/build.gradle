@@ -19,8 +19,14 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            buildConfigField "String", "EXCHANGE_BASE_URL", '"https://revolut.duckdns.org"'
+        }
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "EXCHANGE_BASE_URL", '"https://revolut.duckdns.org"'
         }
     }
 }
@@ -30,10 +36,6 @@ dependencies {
 
     implementation dep.appcompat
     implementation dep.design
-    implementation dep.moxy
-    implementation dep.moxy_appcompat
-    kapt dep.moxy_compiler
-    implementation dep.cicerone
     implementation dep.constraint_layout
     implementation dep.arch_lifecycle_ext
 
@@ -52,6 +54,7 @@ dependencies {
     implementation dep.rx_android
 
     testImplementation dep.junit
+    testImplementation dep.mockito
     androidTestImplementation dep.test_runner
     androidTestImplementation dep.espresso_core
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

@@ -1,10 +1,9 @@
-package com.revolut.view
+package com.revolut.currencies.view
 
 import android.support.v7.util.DiffUtil
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
-import com.revolut.data.Rates
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposables
 
@@ -25,18 +24,25 @@ fun EditText.toObservable(): Observable<String> = Observable.create<String> { e 
     addTextChangedListener(listener)
 }
 
-fun List<String>.calculateCurrencyDiff(newItems: List<String>): DiffUtil.Callback = object : DiffUtil.Callback(){
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        this@calculateCurrencyDiff[oldItemPosition] == newItems[newItemPosition]
-
-    override fun getOldListSize(): Int = this@calculateCurrencyDiff.size
-
-    override fun getNewListSize(): Int = newItems.size
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+fun List<String>.calculateCurrencyDiff(newItems: List<String>): DiffUtil.Callback =
+    object : DiffUtil.Callback() {
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
             this@calculateCurrencyDiff[oldItemPosition] == newItems[newItemPosition]
 
-    override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
-        return super.getChangePayload(oldItemPosition, newItemPosition)
+        override fun getOldListSize(): Int = this@calculateCurrencyDiff.size
+
+        override fun getNewListSize(): Int = newItems.size
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            this@calculateCurrencyDiff[oldItemPosition] == newItems[newItemPosition]
+
+
+    }
+
+fun String.parseToDouble(): Double {
+    return try {
+        toDouble()
+    } catch (_: NumberFormatException) {
+        0.0
     }
 }
